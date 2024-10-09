@@ -9,16 +9,30 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { updateInvoice } from '@/app/lib/actions';
 
 export default function EditInvoiceForm({
   invoice,
   customers,
+
 }: {
   invoice: InvoiceForm;
   customers: CustomerField[];
+
 }) {
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Call the updateInvoice function with the invoice id and formData
+    await updateInvoice(invoice.id, formData);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
